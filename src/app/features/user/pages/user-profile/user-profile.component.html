@@ -1,0 +1,201 @@
+<!-- HTML Template -->
+<div class="container">
+  <div class="profile-container">
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="header-content">
+        <div class="avatar-circle">
+          <i class="bi bi-person"></i>
+        </div>
+        <div>
+          <h1>Mi Perfil</h1>
+          <p class="subtitle">Administra tu información personal</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="message" class="alert alert-success-custom">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      {{ message }}
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="alert alert-danger-custom">
+      <i class="bi bi-x-circle-fill me-2"></i>
+      {{ error }}
+    </div>
+
+    <!-- Profile Information Card -->
+    <div class="card profile-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-person-circle me-2"></i>
+          Información personal
+        </h5>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
+
+          <div class="row g-3">
+            
+            <!-- Nombre -->
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="nombre">Nombre</label>
+              <div class="input-wrapper">
+                <i class="bi bi-person input-icon"></i>
+                <input type="text" 
+                       id="nombre"
+                       class="form-control" 
+                       formControlName="nombre"
+                       placeholder="Tu nombre">
+              </div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="apellidos">Apellidos</label>
+              <div class="input-wrapper">
+                <i class="bi bi-person-badge input-icon"></i>
+                <input type="text" 
+                       id="apellidos"
+                       class="form-control" 
+                       formControlName="apellidos"
+                       placeholder="Tus apellidos">
+              </div>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="col-12">
+              <label class="form-label" for="telefono">Teléfono</label>
+              <div class="input-wrapper">
+                <i class="bi bi-phone input-icon"></i>
+                <input type="tel" 
+                       id="telefono"
+                       class="form-control" 
+                       formControlName="telefono"
+                       placeholder="+52 000 000 0000">
+              </div>
+            </div>
+
+            <!-- Email (readonly) -->
+            <div class="col-12">
+              <label class="form-label" for="email">Correo electrónico</label>
+              <div class="input-wrapper">
+                <i class="bi bi-envelope input-icon"></i>
+                <input type="email" 
+                       id="email"
+                       class="form-control readonly-input" 
+                       [value]="user.email" 
+                       disabled>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-4">
+            <button type="submit" 
+                    class="btn btn-primary-custom w-100"
+                    [disabled]="isLoading || profileForm.invalid">
+              <span *ngIf="!isLoading">
+                <i class="bi bi-check-lg me-2"></i>Guardar cambios
+              </span>
+              <span *ngIf="isLoading">
+                <i class="bi bi-arrow-repeat spinning me-2"></i>Guardando...
+              </span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Security Card -->
+    <div class="card profile-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-shield-lock me-2"></i>
+          Seguridad
+        </h5>
+
+        <!-- Initial State: Request Code -->
+        <div *ngIf="!showPasswordSection" class="security-info">
+          <div class="info-box">
+            <i class="bi bi-info-circle"></i>
+            <p>Te enviaremos un código de verificación a tu correo electrónico para cambiar tu contraseña.</p>
+          </div>
+
+          <button class="btn btn-warning-custom w-100"
+                  (click)="onRequestCode()"
+                  [disabled]="isLoading">
+            <span *ngIf="!isLoading">
+              <i class="bi bi-envelope-paper me-2"></i>Solicitar código de verificación
+            </span>
+            <span *ngIf="isLoading">
+              <i class="bi bi-arrow-repeat spinning me-2"></i>Enviando código...
+            </span>
+          </button>
+        </div>
+
+        <!-- Password Change Flow -->
+        <div *ngIf="showPasswordSection" class="password-flow">
+
+          <div class="alert alert-info-custom">
+            <i class="bi bi-info-circle me-2"></i>
+            Revisa tu correo electrónico e ingresa el código de 6 dígitos que te enviamos.
+          </div>
+
+          <form [formGroup]="passwordForm" (ngSubmit)="onConfirmPasswordChange()">
+
+            <!-- Code Input -->
+            <div class="mb-3">
+              <label class="form-label" for="code">Código de verificación</label>
+              <input type="text" 
+                     id="code"
+                     class="form-control code-input" 
+                     formControlName="code"
+                     placeholder="0 0 0 0 0 0"
+                     maxlength="6">
+            </div>
+
+            <!-- New Password Input -->
+            <div class="mb-3">
+              <label class="form-label" for="newPassword">Nueva contraseña</label>
+              <div class="input-wrapper">
+                <i class="bi bi-lock input-icon"></i>
+                <input type="password" 
+                       id="newPassword"
+                       class="form-control" 
+                       formControlName="newPassword"
+                       placeholder="Mínimo 6 caracteres">
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+              <button type="button" 
+                      class="btn btn-secondary-custom"
+                      (click)="showPasswordSection = false">
+                Cancelar
+              </button>
+
+              <button type="submit"
+                      class="btn btn-success-custom"
+                      [disabled]="passwordForm.invalid || isLoading">
+                <span *ngIf="!isLoading">
+                  <i class="bi bi-check-lg me-2"></i>Confirmar cambio
+                </span>
+                <span *ngIf="isLoading">
+                  <i class="bi bi-arrow-repeat spinning me-2"></i>Confirmando...
+                </span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

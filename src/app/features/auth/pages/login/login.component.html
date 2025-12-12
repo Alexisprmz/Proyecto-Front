@@ -1,0 +1,82 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  
+  <div class="login-card card">
+    <div class="card-body p-4 p-md-5">
+      
+      <div class="logo-container mb-4">
+        <div class="logo-circle">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+      </div>
+
+      <h2 class="text-center mb-2">Bienvenido</h2>
+      <p class="text-center text-muted mb-4 subtitle">Inicia sesión para continuar</p>
+
+      <div *ngIf="errorMessage" class="alert alert-custom-danger mb-4">
+        <i class="bi bi-exclamation-circle me-2"></i> {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo Electrónico</label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input 
+              id="email" 
+              type="email" 
+              class="form-control"
+              [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+              formControlName="email" 
+              placeholder="Correo"
+            >
+          </div>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger mt-1 small">
+            Ingresa un correo válido.
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label for="password" class="form-label">Contraseña</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              id="password" 
+              type="password" 
+              class="form-control"
+              [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              formControlName="password" 
+              placeholder="Password"
+            >
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger mt-1 small">
+            La contraseña es requerida.
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end mb-4">
+          <a routerLink="/auth/forgot-password" class="link-custom small">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="d-grid gap-2 mb-4">
+          <button type="submit" class="btn btn-primary-custom" [disabled]="loginForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Iniciar Sesión</span>
+            <span *ngIf="isLoading">
+              <i class="bi bi-arrow-repeat spinning me-2"></i>Verificando...
+            </span>
+          </button>
+        </div>
+
+      </form>
+
+      <div class="divider">
+        <span>o</span>
+      </div>
+
+      <p class="text-center mb-0 register-text">
+        ¿No tienes cuenta? <a routerLink="/auth/register" class="link-register">Créala aquí</a>
+      </p>
+
+    </div>
+  </div>
+</div>

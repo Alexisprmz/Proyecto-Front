@@ -1,0 +1,58 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  
+  <div class="verify-card card">
+    <div class="card-body p-4 p-md-5">
+      
+      <div class="logo-container mb-4">
+        <div class="logo-circle">
+          <i class="bi bi-shield-check"></i>
+        </div>
+      </div>
+
+      <h2 class="text-center mb-2">Verificar Código</h2>
+      
+      <p class="text-center text-muted mb-1 subtitle">
+        Hemos enviado un código de 6 dígitos a:
+      </p>
+      <p class="text-center mb-4">
+        <span class="email-highlight">{{ email }}</span>
+      </p>
+      
+      <div class="mb-4">
+        <label class="form-label text-center d-block mb-3">Ingresa el código</label>
+        <input 
+          [formControl]="codeControl" 
+          placeholder="0 0 0 0 0 0" 
+          type="text" 
+          inputmode="numeric"
+          maxlength="6"
+          class="form-control code-input"
+          [class.is-invalid]="codeControl.invalid && codeControl.touched"
+        >
+        <div *ngIf="codeControl.invalid && codeControl.touched" class="text-danger small mt-2 text-center">
+          Debes ingresar los 6 dígitos.
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-custom-danger mb-4 fade show">
+        <i class="bi bi-x-circle-fill me-2"></i> {{ errorMessage }}
+      </div>
+      
+      <div class="d-grid gap-2 mb-3">
+        <button (click)="onVerify()" class="btn btn-primary-custom" [disabled]="codeControl.invalid || isLoading">
+          <span *ngIf="!isLoading">Verificar</span>
+          <span *ngIf="isLoading">
+            <i class="bi bi-arrow-repeat spinning me-2"></i>Verificando...
+          </span>
+        </button>
+      </div>
+
+      <div class="text-center">
+        <p class="resend-text mb-0">
+          ¿No recibiste el código? <a href="#" class="link-resend">Reenviar código</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

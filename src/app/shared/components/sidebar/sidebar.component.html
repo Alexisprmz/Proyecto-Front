@@ -1,0 +1,68 @@
+<div class="layout">
+
+      <!-- Overlay para móviles -->
+      <div class="sidebar-overlay" 
+           *ngIf="isSidebarOpen" 
+           (click)="toggleSidebar()">
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" [class.show]="isSidebarOpen">
+
+        <div class="sidebar-header">
+          <div class="brand-container">
+            <div class="brand-icon">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <span class="brand">Mi Cuenta</span>
+          </div>
+          <button class="close-btn d-md-none" 
+                  (click)="toggleSidebar()"
+                  aria-label="Cerrar menú">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <nav class="nav-menu">
+          <a routerLink="/dashboard/user/profile" 
+             routerLinkActive="active" 
+             (click)="closeSidebar()">
+            <i class="bi bi-person"></i>
+            <span>Mi Perfil</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="btn-logout" (click)="logout()">
+            <i class="bi bi-box-arrow-right me-2"></i>
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main">
+
+        <header class="topbar">
+          <button class="menu-btn d-md-none" 
+                  (click)="toggleSidebar()"
+                  aria-label="Abrir menú">
+            <i class="bi bi-list"></i>
+          </button>
+          
+          <h1 class="title d-none d-md-block">Panel de Usuario</h1>
+
+          <div class="user-greeting">
+            <i class="bi bi-person-circle"></i>
+            <span class="greeting-text">Hola,</span>
+            <strong>{{ userName || 'Usuario' }}</strong>
+          </div>
+        </header>
+
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+
+      </main>
+    </div>

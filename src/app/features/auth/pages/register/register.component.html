@@ -1,0 +1,125 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+  
+  <div class="register-card card">
+    <div class="card-body p-4 p-md-5">
+      
+      <div class="logo-container mb-4">
+        <div class="logo-circle">
+          <i class="bi bi-person-plus"></i>
+        </div>
+      </div>
+
+      <h2 class="text-center mb-2">Crear Cuenta</h2>
+      <p class="text-center text-muted mb-4 subtitle">Completa tus datos para registrarte</p>
+
+      <div *ngIf="errorMessage" class="alert alert-custom-danger mb-4 fade show">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-custom-success mb-4 fade show">
+        <i class="bi bi-check-circle-fill me-2"></i> {{ successMessage }}
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Nombre</label>
+            <div class="input-wrapper">
+              <i class="bi bi-person input-icon"></i>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched"
+                formControlName="nombre" 
+                placeholder="Nombre"
+              >
+            </div>
+            <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="text-danger small mt-1">
+              El nombre es requerido.
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Apellidos</label>
+            <div class="input-wrapper">
+              <i class="bi bi-person-badge input-icon"></i>
+              <input 
+                type="text" 
+                class="form-control"
+                [class.is-invalid]="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched"
+                formControlName="apellidos" 
+                placeholder="Apellido"
+              >
+            </div>
+            <div *ngIf="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched" class="text-danger small mt-1">
+              Los apellidos son requeridos.
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Correo Electrónico</label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope input-icon"></i>
+            <input 
+              type="email" 
+              class="form-control"
+              formControlName="email" 
+              placeholder="correo"
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Teléfono</label>
+          <div class="input-wrapper">
+            <i class="bi bi-phone input-icon"></i>
+            <input 
+              type="text" 
+              class="form-control"
+              formControlName="telefono" 
+              placeholder="Telefono"
+            >
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Contraseña</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock input-icon"></i>
+            <input 
+              type="password" 
+              class="form-control"
+              [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              formControlName="password" 
+              placeholder="Mínimo 6 caracteres"
+            >
+          </div>
+          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger small mt-1">
+            Mínimo 6 caracteres.
+          </div>
+        </div>
+
+        <div class="d-grid gap-2 mb-4">
+          <button type="submit" class="btn btn-primary-custom" [disabled]="registerForm.invalid || isLoading">
+            <span *ngIf="!isLoading">Crear Cuenta</span>
+            <span *ngIf="isLoading">
+              <i class="bi bi-arrow-repeat spinning me-2"></i>Registrando...
+            </span>
+          </button>
+        </div>
+
+      </form>
+
+      <div class="divider">
+        <span>o</span>
+      </div>
+
+      <p class="text-center mb-0 register-text">
+        ¿Ya tienes cuenta? <a routerLink="/auth/login" class="link-register">Inicia sesión aquí</a>
+      </p>
+
+    </div>
+  </div>
+</div>
