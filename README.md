@@ -1,4 +1,4 @@
-# Frontend Inmobiliaria (Angular)
+# Frontend  (Angular)
 
 Este proyecto corresponde a la interfaz de usuario . Está desarrollado en Angular (versión 19 o superior) utilizando componentes Standalone y establece comunicación con los microservicios responsables de autenticación (Node.js) y administración de propiedades (PHP).
 
